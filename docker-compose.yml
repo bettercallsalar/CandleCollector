@@ -6,10 +6,10 @@ services:
     container_name: mongodb
     restart: always
     ports:
-      - "9631:27017"    # Maps host port 9631 to container's MongoDB port 27017.
+      - "9631:27017"
     environment:
-      MONGO_INITDB_ROOT_USERNAME: admin
-      MONGO_INITDB_ROOT_PASSWORD: bgKdk,Qcj'Zp)~X6maDwfW
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
     volumes:
       - mongo_data:/data/db
 
@@ -19,7 +19,7 @@ services:
     depends_on:
       - mongodb
     environment:
-      - MONGODB_URI=mongodb://admin:bgKdk,Qcj'Zp)~X6maDwfW@mongodb:27017/algo_trade?authSource=admin
+      - MONGODB_URI=${MONGODB_URI}
     restart: always
 
 volumes:

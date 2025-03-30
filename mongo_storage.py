@@ -11,6 +11,8 @@ logger.setLevel(logging.INFO)
 
 class MongoDBHandler:
     def __init__(self, uri: str = "mongodb://localhost:27017", db_name: str = "algo_trade"):
+        if uri is None:
+            uri = os.environ.get("MONGODB_URI", "mongodb://localhost:27017/algo_trade")
         self.client = pymongo.MongoClient(uri)
         self.db = self.client[db_name]
     
