@@ -31,9 +31,8 @@ def main():
     # Build crypto_tests: one dict per timeframe.
     crypto_tests = [{"exchange": exchange, "symbol": symbol, "timeframe": tf} for tf in timeframes]
 
-    # Define historical period (default period from 2016-03-25 until now).
     historical_periods = [
-        ("all_years", datetime(2016, 3, 25, tzinfo=timezone.utc), datetime.now(timezone.utc))
+        ("all_years", datetime(2010, 1, 1, tzinfo=timezone.utc), datetime.now(timezone.utc))
     ]
 
     print("\nConfiguration:")
@@ -43,7 +42,7 @@ def main():
     print(f"MongoDB URI: {mongo_uri}\n")
 
     # Initialize your MarketDataCollector (assuming your code sets up crypto/forex collectors).
-    collector = MarketDataCollector(api_key='064de06f729b4dfab083cecede14b530')
+    collector = MarketDataCollector()
 
     # Create a dynamic database name based on exchange and symbol.
     # Replace "/" with "_" in symbol to avoid issues.
