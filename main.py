@@ -49,7 +49,7 @@ def main():
     collector = MarketDataCollector(api_key='064de06f729b4dfab083cecede14b530')
     
     # Initialize MongoDB handler with provided URI
-    mongo_handler = MongoDBHandler(uri=mongo_uri, db_name="algo_trade")
+    mongo_handler = MongoDBHandler(uri=mongo_uri, db_name=exchange+"_"+symbol)
     
     # Initialize and run the PriceDataUpdater
     updater = PriceDataUpdater(collector, mongo_handler, crypto_tests, historical_periods, real_time_sleep=60)
