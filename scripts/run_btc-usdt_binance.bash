@@ -8,6 +8,10 @@
 # Change directory to the project root where main.py exists.
 cd ..
 
+# Install Python dependencies from requirements.txt
+echo "Installing Python dependencies from requirements.txt..."
+pip3 install --no-cache-dir -r requirements.txt
+
 # Define an array of configurations (each entry: "exchange symbol").
 configs=(
   "binance BTC/USDT"
