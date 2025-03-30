@@ -22,7 +22,7 @@ def main():
     # Ask for symbol (default: BTC/USDT)
     symbol = prompt_user("Enter symbol (default: BTC/USDT): ", "BTC/USDT")
     
-    # Ask for timeframes (comma-separated). Defaults below include a wide range.
+    # Ask for timeframes (comma-separated). Defaults include a wide range.
     default_timeframes = "1w,3d,1d,12h,8h,6h,4h,2h,1h,30m,15m,5m,3m,1m"
     tf_input = prompt_user(f"Enter timeframes as comma-separated values (default: {default_timeframes}): ", default_timeframes)
     timeframes = [tf.strip() for tf in tf_input.split(",") if tf.strip()]
@@ -34,7 +34,7 @@ def main():
     default_mongo_uri = "mongodb://localhost:27017/"
     mongo_uri = prompt_user(f"Enter MongoDB connection URI (default: {default_mongo_uri}): ", default_mongo_uri)
     
-    # Define historical period (you could also ask user for a start date, but we'll use a default here)
+    # Define historical period (you could also ask user for a start date; here we use a default)
     historical_periods = [
         ("all_years", datetime(2016, 3, 25, tzinfo=timezone.utc), datetime.now(timezone.utc))
     ]
@@ -46,12 +46,14 @@ def main():
     print(f"MongoDB URI: {mongo_uri}\n")
     
     # Initialize your MarketDataCollector (assuming your code sets up crypto/forex collectors)
-    collector = MarketDataCollector(api_key='064de06f729b4dfab083cecede14b530')
+    collector = MarketDataCollector()
     
-    # Initialize MongoDB handler with provided URI
-    mongo_handler = MongoDBHandler(uri=mongo_uri, db_name=exchange+"_"+symbol)
+    # Create a dynamic database name based on exchange and symbol.
+    # Optionally, you can replace "/" with "_" in the symbol.
+    db_name = exchange + "_" + symbol.replace("/", "_")
+    mongo_handler = MongoDBHandler(uri=mongo_uri, db_name=db_name)
     
-    # Initialize and run the PriceDataUpdater
+    # Initialize and run the PriceDataUpdater.
     updater = PriceDataUpdater(collector, mongo_handler, crypto_tests, historical_periods, real_time_sleep=60)
     updater.run()
 
