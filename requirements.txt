@@ -1,0 +1,6 @@
+ccxt
+pandas
+pymongo
+python-dateutil
+requests
+colorama
