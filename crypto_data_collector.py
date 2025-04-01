@@ -17,7 +17,7 @@ class CryptoDataCollector(BaseDataCollector):
         super().__init__()  # Call base class initializer if needed
         self.exchanges = {}
         exchange_names = exchange_names or [
-            'binance', 'kraken', 'bitstamp', 'bitfinex', 'coinbase', 'poloniex'
+            'binance', 'kucoin','coinbase'
         ]
         for name in exchange_names:
             try:
