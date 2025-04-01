@@ -5,11 +5,32 @@ from market_data_collector import MarketDataCollector
 app = Flask(__name__)
 collector = MarketDataCollector(api_key=None) # api key is for forex data and for now is None
 
+allowed_exchanges = ['binance', 'kucoin']
+allowed_timeframes = ['4h', '8h', '12h', '1d', '1w', '1month']
+
+@app.route('/allowed-params', methods=['GET'])
+def allowed_params():
+    return {
+        'timeframes': allowed_timeframes, 'exchanges': allowed_timeframes
+    }
+
 @app.route('/get-candle', methods=['GET'])
 def get_candle():
     exchange = request.args.get('exchange', 'binance')
     symbol = request.args.get('symbol', 'BTC/USDT')
     timeframe = request.args.get('timeframe', '1m')
+    
+     # Validate allowed exchange and timeframe
+    if exchange not in allowed_exchanges:
+        return jsonify({
+            "status": "error", 
+            "message": f"Exchange '{exchange}' is not allowed. Allowed exchanges: {allowed_exchanges}"
+        }), 400
+    if timeframe not in allowed_timeframes:
+        return jsonify({
+            "status": "error", 
+            "message": f"Timeframe '{timeframe}' is not allowed. Allowed timeframes: {allowed_timeframes}"
+        }), 400
     
     limit = int(request.args.get('limit', 1))
     since_str = request.args.get('since', None)
