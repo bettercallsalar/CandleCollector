@@ -11,7 +11,7 @@ allowed_timeframes = ['4h', '8h', '12h', '1d', '1w', '1month']
 @app.route('/allowed-params', methods=['GET'])
 def allowed_params():
     return {
-        'timeframes': allowed_timeframes, 'exchanges': allowed_timeframes
+        'timeframes': allowed_timeframes, 'exchanges': allowed_exchanges
     }
 
 @app.route('/get-candle', methods=['GET'])
