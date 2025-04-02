@@ -3,7 +3,7 @@ import pandas as pd
 import requests
 from datetime import datetime, timedelta
 import time
-from base_data_collector import BaseDataCollector
+from data.base_data_collector import BaseDataCollector
 
 # Set up logging for the module
 logger = logging.getLogger(__name__)

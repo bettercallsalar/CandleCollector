@@ -6,7 +6,7 @@ import ccxt
 from dateutil.parser import parse
 from datetime import datetime, timezone
 
-from base_data_collector import BaseDataCollector
+from data.base_data_collector import BaseDataCollector
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
