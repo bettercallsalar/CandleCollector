@@ -83,7 +83,7 @@ def get_candle():
                 "pair": symbol,
                 "from": since,
                 "to": until,
-                "count": len(candles)
+                "count": len(candles),
             },
             "data": candles,
             
@@ -93,4 +93,4 @@ def get_candle():
     
 if __name__ == '__main__':
     # Run on all network interfaces so it can be accessed externally
-    app.run(host='0.0.0.0', port=5000)
+    app.run(host='0.0.0.0', port=os.getenv('PORT'))

@@ -5,7 +5,7 @@ import pandas as pd
 import ccxt
 from dateutil.parser import parse
 from datetime import datetime, timezone
-
+import os
 from data.base_data_collector import BaseDataCollector
 
 logger = logging.getLogger(__name__)
@@ -16,13 +16,14 @@ class CryptoDataCollector(BaseDataCollector):
     def __init__(self, exchange_names=None):
         super().__init__()  # Call base class initializer if needed
         self.exchanges = {}
-        exchange_names = exchange_names or [
-            'binance', 'kucoin','coinbase'
-        ]
+        exchange_names = exchange_names or [name.strip() for name in os.getenv('ALLOWED_EXCHANGES', 'binance').split(',')]
+        logger.info(f"Initializing exchanges: {exchange_names}")
         for name in exchange_names:
             try:
                 self.exchanges[name] = getattr(ccxt, name)()
                 logger.info(f"Initialized exchange: {name}")
+            except AttributeError:
+                logger.error(f"Exchange '{name}' is not supported by ccxt.")
             except Exception as e:
                 logger.error(f"Failed to initialize {name}: {e}")
 
