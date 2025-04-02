@@ -1,7 +1,7 @@
 # price_data_updater.py
 import logging
-from import_historical import import_full_historical
-from real_time_updater import real_time_updater
+from db.import_historical import import_full_historical
+from db.real_time_updater import real_time_updater
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
