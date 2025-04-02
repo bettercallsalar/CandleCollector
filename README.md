@@ -21,8 +21,8 @@ In an automated trading pipeline, price data is everything — but pulling fresh
 - Fetch OHLCV data by:
 - Fixed limit (e.g. last 100 candles)
 - Date range (`since` → `until`)
-- Supports major exchanges: `binance`, `kucoin`, `coinbase`
-- Multiple timeframes: `4h`, `8h`, `12h`, `1d`, `1w`, `1month`
+- Supports major exchanges: (example) `binance`, `kucoin`, `coinbase`
+- Multiple timeframes: (example) `4h`, `8h`, `12h`, `1d`, `1w`, `1month`
 - Modular collectors: supports Crypto and Forex (via API key)
 - Retry system with rate limit awareness
 - MongoDB export capability (planned/branchable)
