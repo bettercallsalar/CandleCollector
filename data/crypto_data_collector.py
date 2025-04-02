@@ -7,6 +7,7 @@ from dateutil.parser import parse
 from datetime import datetime, timezone
 import os
 from data.base_data_collector import BaseDataCollector
+from pytz import utc
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -100,9 +101,9 @@ class CryptoDataCollector(BaseDataCollector):
 
         # Convert 'since' and 'until' to ms
         if isinstance(since, str):
-            since = parse(since).replace(tzinfo=timezone.utc)
+            since = parse(since).astimezone(utc)
         if isinstance(until, str):
-            until = parse(until).replace(tzinfo=timezone.utc)
+            until = parse(until).astimezone(utc)
 
         if isinstance(since, datetime):
             since = int(since.timestamp() * 1000)
