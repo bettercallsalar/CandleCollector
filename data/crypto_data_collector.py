@@ -45,10 +45,21 @@ class CryptoDataCollector(BaseDataCollector):
         
         return self.safe_retry(fetch_func, max_attempts=3, delay_seconds=3)
 
+    def check_symbol_and_timeframe(self, exchange_name: str, symbol: str, timeframe: str):
+        exchange = self.check_exchange(exchange_name)
+        exchange.load_markets()
+        
+        if symbol not in exchange.symbols:
+            return (f"{symbol} not supported on {exchange.id}")
+        
+        if hasattr(exchange, 'timeframes') and timeframe not in exchange.timeframes:
+            return (f"Timeframe '{timeframe}' not supported on {exchange.id}")
+             
+                
     def check_exchange(self, exchange_name:str) -> ccxt.Exchange:
         exchange = self.exchanges.get(exchange_name)
         if not exchange:
-            raise ValueError(f"Exchange '{exchange_name}' not initialized.")
+            return ValueError(f"Exchange '{exchange_name}' not initialized.")
         return exchange
     
     def fetch_by_limit(self, exchange_name: str, symbol: str, limit: int, timeframe: str ='1d') -> pd.DataFrame:

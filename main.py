@@ -26,6 +26,9 @@ def get_candle():
     symbol = request.args.get('symbol', 'BTC/USDT')
     timeframe = request.args.get('timeframe', '1d')
     
+    
+    check_params = collector.crypto.check_symbol_and_timeframe(exchange_name=exchange, symbol=symbol, timeframe=timeframe)
+    if check_params: return check_params
      # Validate allowed exchange and timeframe
     if exchange not in allowed_exchanges:
         return jsonify({
@@ -58,7 +61,7 @@ def get_candle():
                     "status": "error",
                     "message": f"Invalid 'until' date format. Expected ISO format (YYYY-MM-DDTHH:MM:SS)."
                 }),  400
-                
+            
             df = collector.crypto.fetch_by_date(
                 exchange_name=exchange,
                 symbol=symbol,
@@ -83,7 +86,7 @@ def get_candle():
                 "pair": symbol,
                 "from": since,
                 "to": until,
-                "count": len(candles),
+                "count": len(candles),  
             },
             "data": candles,
             
