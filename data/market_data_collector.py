@@ -1,6 +1,6 @@
 from forex_data_collector  import ForexDataCollector
 from crypto_data_collector import CryptoDataCollector
-from data_exporter import DataExporter
+from db.data_exporter import DataExporter
 class MarketDataCollector:
     def __init__(self, api_key=None):
         self.crypto = CryptoDataCollector()

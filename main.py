@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify
 from datetime import datetime
-from market_data_collector import MarketDataCollector
+from data.market_data_collector import MarketDataCollector
 
 app = Flask(__name__)
 collector = MarketDataCollector(api_key=None) # api key is for forex data and for now is None
