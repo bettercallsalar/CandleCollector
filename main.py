@@ -19,7 +19,6 @@ mongo_handler = MongoDBHandler(uri="mongodb://localhost:27017/", db_name=db_name
 # Define the list of timeframes in descending order (largest first)
 timeframes = ['1M', '1w', '1d', '12h', '8h', '4h', '1h', '30m', '15m', '5m']
 
-
 # Define the historical date range for data fetching.
 # Ensure timezone-aware datetime objects.
 since = datetime(2017, 1, 1, tzinfo=timezone.utc)
@@ -35,6 +34,8 @@ def update_timeframe(tf):
             since=since,
             until=until
         )
+        num_candles = len(df)
+        print(f"Fetched {num_candles} candles for timeframe {tf}.")
         records = df.to_dict("records")
         mongo_handler.upsert_ohlcv(records, exchange, symbol, tf)
         print(f"Upserted {len(records)} candles for timeframe {tf}.")
@@ -42,20 +43,18 @@ def update_timeframe(tf):
         print(f"Error fetching or upserting data for timeframe {tf}: {e}")
 
 def update_all_timeframes():
-    # Create a list to hold all threads
     threads = []
-    # Spawn a thread for each timeframe
     for tf in timeframes:
         thread = threading.Thread(target=update_timeframe, args=(tf,))
         threads.append(thread)
         thread.start()
-    # Wait for all threads to complete
     for thread in threads:
         thread.join()
 
 if __name__ == "__main__":
     while True:
-        print(f"\nStarting data update cycle at {datetime.now(timezone.utc).isoformat()}")
+        current_time = datetime.now(timezone.utc).isoformat()
+        print(f"\nStarting data update cycle at {current_time}")
         update_all_timeframes()
-        # Pause for 60 seconds before the next cycle
+        print("Cycle complete. Waiting 60 seconds before next cycle...")
         time.sleep(60)
